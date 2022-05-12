@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class RegisterType extends AbstractType
 {
@@ -38,6 +39,15 @@ class RegisterType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Merci de saisir votre mot de passe'
                 ]
+            ])->add('password_confirm', PasswordType::class, [
+                'label' => 'Votre mot de passe',
+                'mapped' => false,
+                'attr' => [
+                    'placeholder' => 'Confirmez votre mot de passe'
+                ]
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => "S'inscrire"
             ])
         ;
     }
