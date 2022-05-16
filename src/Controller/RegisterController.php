@@ -22,11 +22,13 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $user = $form->getData();
 
+            $user = $form->getData();
+            
             $entityManager = $doctrine->getManager();
             $entityManager->persist($user);
-            $entityManager->flush();
+            $entityManager->flush($user);
+
 
         }
 
