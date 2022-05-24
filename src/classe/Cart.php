@@ -1,20 +1,27 @@
 <?php
 
-namespace App\classes;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+namespace App\classe;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Cart{
 
-    private $session;
-    public function __construct(SessionInterface $session){
-            $this->session = $session;
+    public  $session;
+
+    public function __construct(RequestStack $requestStack){
+            $this->session = $requestStack->getSession();
     }
 
     public function add($id){
-        $this->session->set('cart', [
-            'id' => '...',
-            'quantity' => 1
-        ]);
+
+        $cart = $this->session->get('cart', []); // Si la session est nulle, on renvoie un tableau vide
+
+        if(!empty($cart[$id])){
+            $cart[$id]++;
+        }else{
+            $cart[$id] = 1;
+        }
+
+        $this->session->set('cart', $cart);
     }
 
     public function get(){
@@ -23,6 +30,12 @@ class Cart{
 
     public function remove(){
         return $this->session->remove('cart');
+    }
+
+    public function delete($id){
+        $cart = $this->session->get('cart', []);
+        unset($cart[$id]);
+        return $this->session->set('cart', $cart);
     }
 
 }
