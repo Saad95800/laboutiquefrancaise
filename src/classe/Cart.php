@@ -3,6 +3,7 @@
 namespace App\classe;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Product;
 
 class Cart{
 
@@ -58,17 +59,17 @@ class Cart{
         $cartComplete = [];
 
         if($this->get()){
-            foreach($cart->get() as $id => $quantity){
+            foreach($this->get() as $id => $quantity){
 
                 $produit_object = $this->entityManager->getRepository(Product::class)->findOneById($id);
 
-                if($produit_object){
+                if(empty($produit_object)){
                     $this->delete($id);
                     continue;
                 }
-                
+
                 $cartComplete[] = [
-                    'product' => $product,
+                    'product' => $produit_object,
                     'quantity' => $quantity,
                 ];                    
                 
