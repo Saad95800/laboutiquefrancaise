@@ -2,6 +2,11 @@
 
 {% block title %}Paiement de ma commande - La boutique française{% endblock %}
 
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
 {% block content %}
 
     <h2>Mon récapitulatif</h2>
@@ -54,6 +59,45 @@
 
         </div>
         
-        <a href="" class="btn btn-success btn-block mt-3">Payer {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €</a>
+        <a class="btn btn-success btn-block mt-3" id="checkout-button">Payer {{ ((total / 100) + carrier.price)|number_format(2, ',', '.') }} €</a>
     </div>
+{% endblock %}
+
+{% block script %}
+
+<script>
+// Customize which fields are collected by the Payment Element
+{# var paymentElement = elements.create('payment', {
+  fields: {
+    billingDetails: {
+      name: 'never',
+      email: 'never',
+    }
+  }
+}); #}
+
+// If you disable collecting fields in the Payment Element, you
+// must pass equivalent data when calling `stripe.confirmPayment`.
+let stripe = Stripe("clé publique stripe");
+document.querySelector('#checkout-button').addEventListener('click', (event) => {
+    console.log('toto');
+    fetch('/commande/create-session', {
+        method: "POST",
+    })
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(session){
+        return stripe.redirectToCheckout({ sessionId: session.id });
+    })
+    .then(function(result){
+        if(result.error){
+            alert(result.error.message);
+        }
+    })
+    .catch(function(error){
+        console.error("Errors:", error)
+})
+});
+</script>
 {% endblock %}

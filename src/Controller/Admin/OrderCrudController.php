@@ -3,11 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Order;
+// use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class OrderCrudController extends AbstractCrudController
 {
@@ -16,14 +18,14 @@ class OrderCrudController extends AbstractCrudController
         return Order::class;
     }
 
-    
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id'),
-            DateTimeField::new('createdAt'),
-            TextField::new('user.firstName'),
-            TextEditorField::new('description'),
+            DateTimeField::new('createdAt', 'Passée le'),
+            TextField::new('user.getFullName', 'Utilisateur'),
+            MoneyField::new('total')->setCurrency('EUR'),
+            BooleanField::new('isPaid', 'Payée'),
         ];
     }
     
