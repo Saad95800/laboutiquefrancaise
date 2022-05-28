@@ -81,14 +81,18 @@
 let stripe = Stripe("clé publique stripe");
 document.querySelector('#checkout-button').addEventListener('click', (event) => {
     console.log('toto');
-    fetch('/commande/create-session', {
+    fetch('/commande/create-session/{{ reference }}', {
         method: "POST",
     })
     .then(function(response){
         return response.json();
     })
     .then(function(session){
-        return stripe.redirectToCheckout({ sessionId: session.id });
+        if(session.error == 'order'){
+            window.location.replace("{{ path('app_order') }}")
+        }else{
+            return stripe.redirectToCheckout({ sessionId: session.id });
+        }
     })
     .then(function(result){
         if(result.error){
