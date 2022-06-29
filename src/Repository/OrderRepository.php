@@ -43,18 +43,30 @@ class OrderRepository extends ServiceEntityRepository
    /**
     * @return Order[] Returns an array of Order objects
     */
-//    public function findOneByReference($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function findOneByReference($value)
+   {
+       return $this->createQueryBuilder('o')
+           ->andWhere('o.reference = :val')
+           ->setParameter('val', $value)
+           ->getQuery()
+           ->getOneOrNullResult()
+       ;
+   }
 
+   /**
+    * @return Order[] Returns an array of Order objects
+    */
+    public function findOneByStripeSessionId($value)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.StripeSessionId = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+   
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */

@@ -78,7 +78,7 @@
 
 // If you disable collecting fields in the Payment Element, you
 // must pass equivalent data when calling `stripe.confirmPayment`.
-let stripe = Stripe("clé publique stripe");
+let stripe = Stripe("pk_test_51L491BLdUiTcQQFNjRX9SCtv0R3qioWCvjM0AB26ye9LCWQ0Hb4PNeek5mnsB2rmtPHgMmeKgOZFbeK76E8DZn9V00SQ3i9Gzg");
 document.querySelector('#checkout-button').addEventListener('click', (event) => {
     console.log('toto');
     fetch('/commande/create-session/{{ reference }}', {

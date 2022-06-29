@@ -22,6 +22,7 @@ Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.
     <tbody>
 
       {% set total = null %}
+      {% set totalp = 0 %}
       
       {% if cart is not empty %}
         {% for product in cart %}
@@ -50,6 +51,9 @@ Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.
             </a>
         </tr>
         {% set total = total + (product.product.price * product.quantity)%}
+        
+        {% set totalp = totalp + product.quantity %}
+
         {% endfor %}
       {% endif %}
 
@@ -57,7 +61,7 @@ Retrouvez l'ensemble des produits que vous avez ajouté à votre panier.
   </table>
 
     <div class="text-end mb-5">
-        <b>Nombre de produit :</b>...<br/>
+        <b>Nombre de produit :</b>{{ totalp }}<br/>
         <b>Total de mon panier :</b>{{ ( total / 100 )|number_format(2, ',', '.') }} €<br/>
         <a href="{{ path('app_order') }}" class="btn btn-success btn-block">Valider mon panier</a>
     </div>
